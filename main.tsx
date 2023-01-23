@@ -29,7 +29,7 @@ const handler = async (req: Request) => {
     body: (
       <div class="w-full font-mono">
         <h2><a href={`https://github.com/${owner}`}>{owner}</a>/<a href={`https://github.com/${owner}/${repo}`}>{repo}</a></h2>
-        <hr>
+        </hr>
         <pre>{
           for (const file in t) {
            <a href={`https://github.com/`}>{file}</a> ({format(t[file])}){"\n"}
