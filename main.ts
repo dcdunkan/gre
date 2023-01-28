@@ -130,7 +130,7 @@ function treeToString(directory: Directory, back: string, options?: Partial<Stri
 async function request<T = any>(path: string): Promise<T> {
   const url = `https://api.github.com/repos/${path}`;
   const response = await fetch(url);
-  if (!response.ok) throw new Error("Request failed");
+  if (!response.ok) throw new Error("Request failed to " + url);
   return await response.json() as T;
 }
 
