@@ -23,7 +23,7 @@ const cache = new Map<string, string>();
 async function resolve(query: string) {
   const [owner, _repo, ...filepathSeg] = query.split("/").slice(1);
   if (!owner && !_repo) {
-    throw new Error("Invalid query. Required parameters are empty");
+    new Response("Invalid query. Required parameters are empty", { status: 400 });
   }
   let [repo, version] = _repo.split("@", 1);
   const id = `${owner}/${repo}`; // not actual id
