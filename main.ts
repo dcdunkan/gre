@@ -14,7 +14,7 @@ type TreeResponse = { tree: TreeEntry[] };
 
 
 serve(async (req) => {
-  return await resolve(new URL(req.url).pathname);
+  return await resolve(new URL(req.url).pathname ?? "");
 });
 
 const cache = new Map<string, string>();
