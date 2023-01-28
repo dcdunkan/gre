@@ -14,13 +14,14 @@ type TreeResponse = { tree: TreeEntry[] };
 
 
 serve(async (req) => {
-  return await resolve(new URL(req.url).pathname ?? "");
+  return await resolve(req.url);
 });
 
 const cache = new Map<string, string>();
 
 // Query: owner/repo@version/path/to/file.ext
-async function resolve(query: string) {
+async function resolve(url: string) {
+  const { hostname, pathname: query } = new URL(url);
   const [owner, _repo, ...filepathSeg] = query.split("/").slice(1);
   if (!owner || !_repo) {
     return new Response("Invalid query. Required parameters are empty", { status: 400 });
@@ -32,7 +33,7 @@ async function resolve(query: string) {
   if (!version) {
     const { default_branch } = await request(`${id}`);
     version = default_branch;
-    return Response.redirect(`/${id}@${default_branch}`);
+    return Response.redirect(`https://${hostname}/${id}@${default_branch}`);
   }
 
   if (filepath && filepath !== "") {
