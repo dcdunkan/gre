@@ -50,10 +50,12 @@ async function resolve(url: string) {
     tree = cachedTree;
   } else {
     const files = await getTree(id, version);
+    console.log(files);
     tree = [`${id} (${version})`, ...treeToString(files, `https://raw.githubusercontent.com/${id}/${version}`, {
       fileSize: true,
       fileCount: true,
     })].join("\n");
+    
     cache.set(`${id}@${version}`, tree);
   }
   return new Response(
