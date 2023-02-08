@@ -35,13 +35,13 @@ async function resolve(url: string) {
   if (!version) {
     const { default_branch } = await request(`${id}`);
     version = default_branch;
-    return Response.redirect(`https://${hostname}/${id}@${default_branch}`);
+    // return Response.redirect(`https://${hostname}/${id}@${default_branch}`);
   }
+  
+  console.log({ owner, repo, id, version, filepath });
 
   if (filepath && filepath !== "") {
-    // Return raw file content if html wasn't requested or return
-    // syntax highlighted (using deno_shiki) HTML for browser.
-    return await rawResponse(`${owner}/${repo}/${version}/${filepath}`);
+    return await rawResponse(`${id}/${version}/${filepath}`);
   }
 
   let tree: string;
@@ -67,7 +67,8 @@ async function resolve(url: string) {
 async function getTree(id: string, version: string) {
   let files: Directory = {};
   // Get fresh contents; fetch current file struct recursively.
-  const queryString = `${id}/git/trees/${version}?recursive=true`
+  const queryString = `${id}/git/trees/${version}?recursive=true`;
+  console.log(queryString);
   const { tree: contents } = await request<TreeResponse>(queryString);
   for (const content of contents) {
     if (content.type !== "blob") continue;
