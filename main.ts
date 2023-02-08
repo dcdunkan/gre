@@ -33,9 +33,9 @@ async function resolve(req: Request) {
   if (rawRes.ok && rawRes.status === 200) return rawRes;
  
   const { default_branch } = await request<{ default_branch: string }>(id);
-  const branchesRes = await request<{name: string}[]>(`${id}/branches`);
-  const version = branchesRes.find((b) => filepath === b.name)?.name ?? default_branch;
-
+  const branches = await request<{name: string}[]>(`${id}/branches`);
+  const version = branches.find((b) => filepath === b.name)?.name ?? default_branch;
+  
   let tree: string;
   const cachedTree = cache.get(`${id}/${version}`);
   if (cachedTree !== undefined) {
