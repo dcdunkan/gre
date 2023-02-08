@@ -30,6 +30,7 @@ async function resolve(req: Request) {
   const filepath = filepathSeg.join("/");
   
   const rawRes = await rawResponse(`${id}/${filepath}`);
+  console.log(rawRes);
   if (rawRes.ok && rawRes.status === 200) return rawRes;
  
   const { default_branch } = await request<{ default_branch: string }>(id);
@@ -75,7 +76,6 @@ a:hover {
   color: #00FF7F;
   text-decoration: underline;
   text-decoration-color: #00FF7F;
-  text-decoration-style: wavy;
 }
 
 .info {
