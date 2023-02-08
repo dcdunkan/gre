@@ -1,5 +1,8 @@
-import { serve } from "https://deno.land/std@0.174.0/http/server.ts";
-import { format as bytes } from "https://deno.land/std@0.174.0/fmt/bytes.ts";
+import { serve } from "https://deno.land/std@0.176.0/http/server.ts";
+import { format as bytes } from "https://deno.land/std@0.176.0/fmt/bytes.ts";
+import "https://deno.land/std@0.176.0/dotenv/load.ts";
+
+const env = Deno.env.toObject() as { PAT?: string };
 
 type Directory = Record<string, number | Subdirectory>
 interface Subdirectory extends Directory {};
@@ -12,9 +15,8 @@ interface TreeEntry {
 };
 type TreeResponse = { tree: TreeEntry[] };
 
-
-serve(async (req) => {
-  return await resolve(req.url);
+serve((req) => {
+  return resolve(req.url);
 });
 
 const cache = new Map<string, string>();
@@ -127,9 +129,16 @@ function treeToString(directory: Directory, back: string, options?: Partial<Stri
   return lines;
 }
 
-async function request<T = any>(path: string): Promise<T> {
+async function request<T = unknown>(path: string): Promise<T> {
   const url = `https://api.github.com/repos/${path}`;
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Accept": "application/vnd.github+json",
+      ...(env.PAT ? { "Authorization": `Bearer ${env.PAT}` } : {}),
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
   if (!response.ok) throw new Error("Request failed to " + url);
   return await response.json() as T;
 }
