@@ -15,30 +15,28 @@ interface TreeEntry {
 };
 type TreeResponse = { tree: TreeEntry[] };
 
-serve((req) => {
-  return resolve(req.url);
-});
+serve(resolve);
 
 const cache = new Map<string, string>();
 
 // Query: owner/repo@version/path/to/file.ext
-async function resolve(url: string) {
-  const { hostname, pathname: query } = new URL(url);
-  const [owner, _repo, ...filepathSeg] = query.split("/").slice(1);
-  if (!owner || !_repo) {
+async function resolve(req: Request) {
+  const { hostname, pathname: query } = new URL(req.url);
+  const [owner, repo, ...filepathSeg] = query.split("/").slice(1);
+  if (!owner || !repo) {
     return new Response("Invalid query. Required parameters are empty", { status: 400 });
   }
-  let [repo, version] = _repo.split("@", 1);
   const id = `${owner}/${repo}`; // not actual id
   const filepath = filepathSeg.join("/");
-
-  if (!version) {
-    const { default_branch } = await request(`${id}`);
-    version = default_branch;
-    // return Response.redirect(`https://${hostname}/${id}@${default_branch}`);
-  }
   
-  console.log({ owner, repo, id, version, filepath });
+  const rawRes = await rawResponse(`${id}/${filepath}`);
+  if (rawRes.ok) return rawRes;
+ 
+  const { default_branch } = await request<{ default_branch: string }>(id);
+  const branchesRes = await request<{name: string}[]>(`${id}/branches`);
+  const version = branchesRes.find((b) => filepath === b.name)?.name ?? default_branch;
+  
+  console.log({ owner, repo, id, filepath });
 
   if (filepath && filepath !== "") {
     return await rawResponse(`${id}/${version}/${filepath}`);
@@ -50,14 +48,16 @@ async function resolve(url: string) {
     tree = cachedTree;
   } else {
     const files = await getTree(id, version);
-    tree = [`${id} (${version})`, ...treeToString(files, `https://raw.githubusercontent.com/${id}/${version}`, {
+    tree = [`<h3>${id} (${version})</h3>`, ...treeToString(files, `${id}/${version}`, {
       fileSize: true,
       fileCount: true,
     })].join("\n");
     cache.set(`${id}@${version}`, tree);
   }
   return new Response(
-    `<html><head><title>${id} @ ${version}</title></head><body><pre>${tree}</pre></body></html>`,
+    `<html><head><title>${id} @ ${version}</title>
+    <style> body { color: white; background-color: #202020; font-size: 16px; }</style></head>
+<body><pre>${tree}</pre></body></html>`,
     { headers: { "content-type": "text/html" } },
   );
 }
