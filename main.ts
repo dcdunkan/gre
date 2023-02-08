@@ -30,21 +30,14 @@ async function resolve(req: Request) {
   const filepath = filepathSeg.join("/");
   
   const rawRes = await rawResponse(`${id}/${filepath}`);
-  console.log(rawRes);
   if (rawRes.ok && rawRes.status === 200) return rawRes;
  
   const { default_branch } = await request<{ default_branch: string }>(id);
   const branchesRes = await request<{name: string}[]>(`${id}/branches`);
   const version = branchesRes.find((b) => filepath === b.name)?.name ?? default_branch;
-  
-  console.log({ owner, repo, id, filepath });
-
-  if (filepath && filepath !== "") {
-    return await rawResponse(`${id}/${version}/${filepath}`);
-  }
 
   let tree: string;
-  const cachedTree = cache.get(`${id}@${version}`);
+  const cachedTree = cache.get(`${id}/${version}`);
   if (cachedTree !== undefined) {
     tree = cachedTree;
   } else {
@@ -53,36 +46,18 @@ async function resolve(req: Request) {
       fileSize: true,
       fileCount: true,
     })].join("\n");
-    cache.set(`${id}@${version}`, tree);
+    cache.set(`${id}/${version}`, tree);
   }
   return new Response(
     `<html><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${id} @ ${version}</title>
-    <style> body { color: white; background-color: #202020; font-size: 16px; }
-    
-a:link {
-  color: white;
-  text-decoration: underline;
-  text-decoration-color: #00FF7F;
-}
-
-a:visited {
-  color: white;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #00FF7F;
-  text-decoration: underline;
-  text-decoration-color: #00FF7F;
-}
-
-.info {
-  color: gray
-}
-    
-    </style></head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${id} @ ${version}</title>
+<style> body { color: white; background-color: #202020; font-size: 16px; }
+a:link {color: white;text-decoration: underline;text-decoration-color: #00FF7F;}
+a:visited {color: white; text-decoration: none;}
+a:hover {color: #00FF7F;text-decoration: underline;text-decoration-color: #00FF7F;}
+.info {color: gray;}
+</style></head>
 <body><pre>${tree}</pre></body></html>`,
     { headers: { "content-type": "text/html" } },
   );
