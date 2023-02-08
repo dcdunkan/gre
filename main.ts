@@ -50,16 +50,14 @@ async function resolve(url: string) {
     tree = cachedTree;
   } else {
     const files = await getTree(id, version);
-    console.log(files);
     tree = [`${id} (${version})`, ...treeToString(files, `https://raw.githubusercontent.com/${id}/${version}`, {
       fileSize: true,
       fileCount: true,
     })].join("\n");
-    
     cache.set(`${id}@${version}`, tree);
   }
   return new Response(
-    `<html><head><title>${id} @ ${version}</title></head><body>${tree}</body></html>`,
+    `<html><head><title>${id} @ ${version}</title></head><body><pre>${tree}</pre></body></html>`,
     { headers: { "content-type": "text/html" } },
   );
 }
@@ -68,7 +66,6 @@ async function getTree(id: string, version: string) {
   let files: Directory = {};
   // Get fresh contents; fetch current file struct recursively.
   const queryString = `${id}/git/trees/${version}?recursive=true`;
-  console.log(queryString);
   const { tree: contents } = await request<TreeResponse>(queryString);
   for (const content of contents) {
     if (content.type !== "blob") continue;
@@ -90,9 +87,10 @@ function addFileToTree(tree: Directory, pathSegments: string[], size: number) {
   return tree;
 }
 
-const BOX_LEFT_BOTTOM = "└──";
-const BOX_LEFT_MIDDLE = "├──";
-const BOX_BORDER_LEFT = "│";
+const DASH = "&#9473&#9473";
+const BOX_LEFT_BOTTOM = `&#9495${DASH}`; // "└──";
+const BOX_LEFT_MIDDLE = `&#9507${DASH}`; // "├──";
+const BOX_BORDER_LEFT = "&#9475"; // "│";
 
 interface StringTreeOptions {
   fileSize: boolean;
