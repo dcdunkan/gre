@@ -30,7 +30,7 @@ async function resolve(req: Request) {
   const filepath = filepathSeg.join("/");
   
   const rawRes = await rawResponse(`${id}/${filepath}`);
-  if (rawRes.ok) return rawRes;
+  if (rawRes.ok && rawRes.status === 200) return rawRes;
  
   const { default_branch } = await request<{ default_branch: string }>(id);
   const branchesRes = await request<{name: string}[]>(`${id}/branches`);
@@ -56,7 +56,31 @@ async function resolve(req: Request) {
   }
   return new Response(
     `<html><head><title>${id} @ ${version}</title>
-    <style> body { color: white; background-color: #202020; font-size: 16px; }</style></head>
+    <style> body { color: white; background-color: #202020; font-size: 16px; }
+    
+a:link {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: #00FF7F;
+}
+
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00FF7F;
+  text-decoration: underline;
+  text-decoration-color: #00FF7F;
+  text-decoration-style: wavy;
+}
+
+.info {
+  color: gray
+}
+    
+    </style></head>
 <body><pre>${tree}</pre></body></html>`,
     { headers: { "content-type": "text/html" } },
   );
@@ -119,7 +143,7 @@ function treeToString(directory: Directory, back: string, options?: Partial<Stri
       }
     }
     const link = `${back}/${filename}`;
-    const line = `${sideChar} ${type === "dir" ? "<b>" : `<a href="/${link}">`}${filename}${type === "dir" ? "</b>/" : "</a>"}${props}`;
+    const line = `${sideChar} ${type === "dir" ? "<b>" : `<a href="/${link}">`}${filename}${type === "dir" ? "</b>/" : "</a>"}<span class="info">${props}</span>`;
     lines.push(line);
     if (type === "dir") {
       const subdirTree = treeToString(entry[1] as Subdirectory, `${back}/${filename}`, options)
