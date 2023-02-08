@@ -55,7 +55,9 @@ async function resolve(req: Request) {
     cache.set(`${id}@${version}`, tree);
   }
   return new Response(
-    `<html><head><title>${id} @ ${version}</title>
+    `<html><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${id} @ ${version}</title>
     <style> body { color: white; background-color: #202020; font-size: 16px; }
     
 a:link {
