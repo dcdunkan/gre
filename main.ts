@@ -53,8 +53,7 @@ async function resolve(req: Request) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${id} @ ${version}</title>
 <style> body { color: white; background-color: #202020; font-size: 16px; }
-a:link {color: white;text-decoration: underline;text-decoration-color: #00FF7F;}
-a:visited {color: white; text-decoration: none;}
+a {color: white;text-decoration: underline;text-decoration-color: #00FF7F;} 
 a:hover {color: #00FF7F;text-decoration: underline;text-decoration-color: #00FF7F;}
 .info {color: gray;}
 </style></head>
