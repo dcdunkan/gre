@@ -1,0 +1,66 @@
+body {
+  font-family: 'Inconsolata', monospace;
+  background-color: #151515;
+  color: #CCCCCC;
+  margin: 10px;
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+}
+
+.file-list {
+  padding-left: 15px;
+  border-left: 2px solid #303030;
+}
+
+li {
+  padding-top: 2.5px;
+  padding-bottom: 2.5px;
+}
+
+summary {
+  margin-bottom: 5px;
+}
+
+.no-color-link {
+  text-decoration: none;
+  color: #CCCCCC;
+}
+
+a {
+  text-decoration: none;
+  color: #1AA7EC;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #66C2FF;
+}
+
+.repo {
+  box-sizing: border-box;
+  border: 2px solid #303030;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-bottom: 5px;
+}
+
+code {
+  background-color: #101010;
+  padding: 2px;
+  margin: 2px;
+  border-radius: 5%;
+  font-family: 'Inconsolata', monospace;
+}
+
+pre {
+  background-color: #101010;
+  padding: 10px;
+  margin: 5px;
+  width: 100%;
+  border-radius: 2px;
+  overflow-x: auto;
+  font-family: 'Inconsolata', monospace;
+}
