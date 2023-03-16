@@ -13,24 +13,19 @@ export function HomePage() {
       </p>
       <p>
         Hey, why don't you check out the{" "}
-        <b>
-          <a href="https://gre.deno.dev/dcdunkan/gre">
-            source of this website
-          </a>{" "}
-          for a demonstration.
-        </b>
+        <a href="https://gre.deno.dev/dcdunkan/gre">
+          source of this website
+        </a>{" "}
+        for a demonstration.
       </p>
 
       <h2>But Why?</h2>
       <p>
-        GitHub's website is becoming laggier these days, at least on my device.
-        I still use GitHub, but the website is a little bloated to browse
-        through code.
+        GitHub's website is becoming laggier these days, at least for me.
+        I still use GitHub, but the website is a little bloated to browse code.
       </p>
       <p>
-        So, why not have a simple GitHub? Just to browse through the code? Or in
-        the future, maybe even have most of the good and necessary features but
-        with simplicity?
+        So, why not have a simple GitHub? Just to browse the code?
       </p>
       <p>Consider starring the repository if you found this useful.</p>
       <p>Thank you :)</p>
@@ -186,7 +181,7 @@ export function RepoPage(
           })}
         </ul>
       </details>
-      <details>
+      <details open>
         <summary>Browse Code</summary>
         {treeList}
       </details>
