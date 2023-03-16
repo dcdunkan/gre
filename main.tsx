@@ -4,7 +4,7 @@ import { serve } from "https://deno.land/std@0.179.0/http/server.ts";
 import { format as byte } from "https://deno.land/std@0.179.0/fmt/bytes.ts";
 import html, { h, JSX } from "https://deno.land/x/htm@0.1.4/mod.ts";
 import ColorScheme from "https://deno.land/x/htm@0.1.4/plugins/color-scheme.ts";
-import { HomePage, NOT_FOUND_PAGE, RepoPage, UserPage } from "./pages.tsx";
+import { HomePage, RepoPage, UserPage } from "./pages.tsx";
 import type { Directory, Owner, Repository, TreeResponse } from "./types.ts";
 
 const STYLES = await Deno.readTextFile("./styles.css");
@@ -24,6 +24,16 @@ html.use((ctx) => {
     },
     ...(ctx.links) ?? [],
   ];
+});
+
+const NOT_FOUND_PAGE = html({
+  title: "Not found",
+  body: (
+    <div style="display: flex;justify-content: center;align-items: center">
+      <h2>404: NOT FOUND</h2>
+    </div>
+  ),
+  status: 404,
 });
 
 serve(handler, {

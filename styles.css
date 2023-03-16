@@ -47,12 +47,15 @@ a:hover {
   margin-bottom: 5px;
 }
 
+code, pre, samp {
+  font-family: 'Inconsolata', monospace;
+}
+
 code {
   background-color: #101010;
   padding: 2px;
   margin: 2px;
   border-radius: 5%;
-  font-family: 'Inconsolata', monospace;
 }
 
 pre {
@@ -62,5 +65,4 @@ pre {
   width: 100%;
   border-radius: 2px;
   overflow-x: auto;
-  font-family: 'Inconsolata', monospace;
 }

@@ -1,17 +1,7 @@
 /** @jsx h */
 /** @jsxFrag Fragment */
-import html, { Fragment, h, JSX } from "https://deno.land/x/htm@0.1.4/mod.ts";
+import { Fragment, h, JSX } from "https://deno.land/x/htm@0.1.4/mod.ts";
 import type { Owner, Repository } from "./types.ts";
-
-export const NOT_FOUND_PAGE = html({
-  title: "Not found",
-  body: (
-    <div style="display: flex;justify-content: center;align-items: center">
-      <h2>404: NOT FOUND</h2>
-    </div>
-  ),
-  status: 404,
-});
 
 export function HomePage() {
   return (
@@ -43,7 +33,7 @@ export function HomePage() {
         with simplicity?
       </p>
       <p>Consider starring the repository if you found this useful.</p>
-      <p>Thank you.</p>
+      <p>Thank you :)</p>
     </main>
   );
 }
