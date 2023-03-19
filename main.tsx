@@ -81,7 +81,7 @@ async function handler(req: Request): Promise<Response> {
     ) ?? "").trim().replace(/<svg class="octicon(.+)<\/svg>/gm, "");
 
     return html({
-      title: `${user.login}`,
+      title: `Repositories - ${user.login}`,
       body: UserPage({ readme, hasPrev, hasNext, repos, user, page }),
     });
   }
@@ -124,7 +124,7 @@ async function handler(req: Request): Promise<Response> {
     .trim().replace(/<svg class="octicon(.+)<\/svg>/gm, ""); // They are no necessary.
 
   return html({
-    title: `${repoDetails.owner.login} @ ${branch}`,
+    title: `${repoDetails.owner.login}/${repoDetails.name} @ ${branch}`,
     body: RepoPage({ treeList, branch, repo: repoDetails, readme, branches }),
   });
 
