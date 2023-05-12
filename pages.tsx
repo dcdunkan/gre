@@ -66,7 +66,7 @@ export function UserPage(
 
       {readme
         ? (
-          <details>
+          <details open>
             <summary>README.md</summary>
             <div dangerouslySetInnerHTML={{ __html: readme }}>
             </div>
@@ -188,7 +188,7 @@ export function RepoPage(
 
       {readme
         ? (
-          <details>
+          <details open>
             <summary>README.md</summary>
             <div dangerouslySetInnerHTML={{ __html: readme }}>
             </div>
