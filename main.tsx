@@ -1,7 +1,7 @@
 /** @jsx h */
-import "https://deno.land/std@0.179.0/dotenv/load.ts";
-import { serve } from "https://deno.land/std@0.179.0/http/server.ts";
-import { format as byte } from "https://deno.land/std@0.179.0/fmt/bytes.ts";
+import "https://deno.land/std@0.186.0/dotenv/load.ts";
+import { serve } from "https://deno.land/std@0.186.0/http/server.ts";
+import { format as byte } from "https://deno.land/std@0.186.0/fmt/bytes.ts";
 import html, { h, JSX } from "https://deno.land/x/htm@0.1.4/mod.ts";
 import ColorScheme from "https://deno.land/x/htm@0.1.4/plugins/color-scheme.ts";
 import { HomePage, RepoPage, UserPage } from "./pages.tsx";
@@ -19,7 +19,7 @@ html.use((ctx) => {
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     { rel: "preconnect", href: "https://fonts.gstatic.com" },
     {
-      href: "https://fonts.googleapis.com/css2?family=Inconsolata&display=swap",
+      href: "https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap",
       rel: "stylesheet",
     },
     ...(ctx.links) ?? [],

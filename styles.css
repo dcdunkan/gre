@@ -1,5 +1,5 @@
 body {
-  font-family: 'Inconsolata', monospace;
+  font-family: 'Roboto Mono', monospace;
   background-color: #151515;
   color: #CCCCCC;
   margin: 10px;
@@ -48,7 +48,7 @@ a:hover {
 }
 
 code, pre, samp {
-  font-family: 'Inconsolata', monospace;
+  font-family: 'Roboto Mono', monospace;
 }
 
 code {
