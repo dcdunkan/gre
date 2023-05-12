@@ -21,8 +21,8 @@ export function HomePage() {
 
       <h2>But Why?</h2>
       <p>
-        GitHub's website is becoming laggier these days, at least for me.
-        I still use GitHub, but the website is a little bloated to browse code.
+        GitHub's website is becoming laggier these days, at least for me. I
+        still use GitHub, but the website is a little bloated to browse code.
       </p>
       <p>
         So, why not have a simple GitHub? Just to browse the code?
